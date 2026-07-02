@@ -69,6 +69,8 @@ class PhoneNumber:
     @property
     def raw(self) -> str:
         """The original input string."""
+        if self._rce_out:
+            return self._rce_out
         return self._raw
 
     @property
